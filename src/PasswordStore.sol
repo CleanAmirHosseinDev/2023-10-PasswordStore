@@ -1,41 +1,52 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.18;
 
-/*
- * @author not-so-secure-dev
+/**
  * @title PasswordStore
- * @notice This contract allows you to store a private password that others won't be able to see. 
- * You can update your password at any time.
+ * @author not-so-secure-dev
+ * @notice This contract securely stores a password hash instead of the plain password.
+ * @dev Passwords are stored as keccak256 hashes to improve security.
  */
 contract PasswordStore {
     error PasswordStore__NotOwner();
 
-    address private s_owner;
-    string private s_password;
+    address private immutable i_owner; // Owner address, immutable after deployment
+    bytes32 private s_passwordHash; // Stored hashed password
 
-    event SetNetPassword();
+    event PasswordChanged();
 
+    /**
+     * @dev Sets the deployer as the owner
+     */
     constructor() {
-        s_owner = msg.sender;
+        i_owner = msg.sender;
     }
 
-    /*
-     * @notice This function allows only the owner to set a new password.
-     * @param newPassword The new password to set.
+    /**
+     * @notice Sets a new password (hashed)
+     * @param newPassword The new password in plain text which will be hashed inside the contract
+     * @dev Only callable by the owner
      */
-    function setPassword(string memory newPassword) external {
-        s_password = newPassword;
-        emit SetNetPassword();
-    }
-
-    /*
-     * @notice This allows only the owner to retrieve the password.
-     * @param newPassword The new password to set.
-     */
-    function getPassword() external view returns (string memory) {
-        if (msg.sender != s_owner) {
+    function setPassword(string calldata newPassword) external {
+        if (msg.sender != i_owner) {
             revert PasswordStore__NotOwner();
         }
-        return s_password;
+        s_passwordHash = keccak256(abi.encodePacked(newPassword));
+        emit PasswordChanged();
+    }
+
+    /**
+     * @notice Checks if the input password matches the stored password hash
+     * @param inputPassword The password to verify
+     * @return True if the password matches, false otherwise
+     * @dev Only callable by the owner
+     */
+    function checkPassword(
+        string calldata inputPassword
+    ) external view returns (bool) {
+        if (msg.sender != i_owner) {
+            revert PasswordStore__NotOwner();
+        }
+        return keccak256(abi.encodePacked(inputPassword)) == s_passwordHash;
     }
 }

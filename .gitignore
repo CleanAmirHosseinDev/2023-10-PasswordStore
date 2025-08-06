@@ -1,4 +1,6 @@
 # Compiler files
+node_modules/
+artifacts/
 cache/
 out/
 

@@ -1,0 +1,27 @@
+{
+  "name": "2023-10-passwordstore",
+  "version": "1.0.0",
+  "description": "- [Contest Details](#contest-details)\r   - [Stats](#stats)\r - [Getting Started](#getting-started)\r   - [Requirements](#requirements)\r   - [Quickstart](#quickstart)\r     - [Optional Gitpod](#optional-gitpod)\r - [Usage](#usage)\r   - [Deploy (local)](#deploy-local)\r   - [Testing](#testing)\r     - [Test Coverage](#test-coverage)\r   - [Compatibilities](#compatibilities)\r - [Roles](#roles)\r - [Known Issues](#known-issues)",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cyfrin/2023-10-PasswordStore.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Cyfrin/2023-10-PasswordStore/issues"
+  },
+  "homepage": "https://github.com/Cyfrin/2023-10-PasswordStore#readme",
+  "devDependencies": {
+    "hardhat": "^2.26.2"
+  }
+}
